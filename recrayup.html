@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-Ray Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f0f8;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            color: #333;
+            padding: 30px 20px;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 2px;
+            font-family: 'Great Vibes', cursive;
+            color: #6a0dad;
+        }
+        .header p {
+            font-size: 1.5em;
+            margin: 0;
+            font-weight: 300;
+            color: #333;
+        }
+        /*.main-content {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px auto;
+            max-width: 1200px;
+            padding: 0 15px;
+        }*/
+        .form-container {
+            background: #f4f0f8;
+            padding: 30px;
+
+        }
+        .form-container h2 {
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #4b0082;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #555;
+        }
+        .form-control {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #333;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.6);
+            border-color: #667eea;
+        }
+        .btn-primary {
+            background-color: #9370db;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #7b68ee;
+            transform: translateY(-2px);
+        }
+        .info-section {
+            background-color: #f4f0f8; /* Background color matching the website background */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            flex: 0 0 30%;
+            color: #333;
+            margin-left: auto;
+            border-top: 6px solid #b19cd9; /* Soft purple color */
+        }
+
+        .info-section h3 {
+            font-weight: 500;
+            color: #333;
+        }
+        .info-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .info-section li {
+            margin: 10px 0;
+            color: #555;
+        }
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            color: #333;
+            text-align: center;
+            padding: 5px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Rec'ray</h1>
+        <p>X-Ray Search Tool</p>
+    </div>
+
+    <div class="main-content">
+        <div class="container form-container">
+            <h2>Easily use Google to search profiles on LinkedIn</h2>
+            <form id="searchForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="country">Country</label>
+                        <input list="countryList" id="country" class="form-control" placeholder="Enter or select a country">
+                        <datalist id="countryList">
+                            <option value="United States">
+                            <option value="Canada">
+                            <option value="United Kingdom">
+                            <option value="Australia">
+                            <option value="India">
+                            <!-- Add more country options here -->
+                        </datalist>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="job-title">Job title</label>
+                        <input list="jobTitleList" id="job-title" class="form-control" placeholder="Enter or select a job title">
+                        <datalist id="jobTitleList">
+                            <option value="Accountant">
+                            <option value="Chief Financial Officer">
+                            <option value="Software Engineer">
+                            <option value="Data Scientist">
+                            <option value="Product Manager">
+                            <!-- Add more job titles here -->
+                        </datalist>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control" id="location" placeholder="E.g. New York, San Francisco">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exclude">Keyword to exclude</label>
+                        <input type="text" class="form-control" id="exclude" placeholder="E.g. Senior, Junior">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="education">Education</label>
+                        <select id="education" class="form-control">
+                            <option selected>All candidates</option>
+                            <option value="bachelors">Bachelors</option>
+                            <option value="masters">Masters</option>
+                            <option value="doctoral">Doctoral</option>
+                            <!-- Add more education levels here -->
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="employer">Current Employer</label>
+                        <input type="text" class="form-control" id="employer" placeholder="E.g. Google, Microsoft">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                    <div class="form-group col-md-6 d-flex align-items-center justify-content-end">
+                        <label for="emailBox">Add email to search (optional)</label>
+                        <input type="checkbox" id="emailBox" class="ml-2">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="info-section search-benefits">
+            <h3>Why search LinkedIn with Rec'ray?</h3>
+            <ul>
+                <li>Get more than 100 results</li>
+                <li>View profiles out of your network</li>
+                <li>Search by education and employer</li>
+                <li>No registration required</li>
+                <li>Completely free to use :)</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Abex Excellence Pvt Ltd</p>
+    </div>
+    <div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="queryModalLabel">Your Search Query</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Copy, save or open the search string in Google and find the right candidates</p>
+                    <input type="text" class="form-control" id="googleQuery" readonly>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="copyUrl()">Copy</button>
+                    <button type="button" class="btn btn-primary" onclick="openUrl()">Open</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const googleQuery = document.getElementById('googleQuery');
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const country = document.getElementById('country').value;
+            const jobTitle = document.getElementById('job-title').value;
+            const location = document.getElementById('location').value;
+            const exclude = document.getElementById('exclude').value;
+            const education = document.getElementById('education').value;
+            const employer = document.getElementById('employer').value;
+            const emailBox = document.getElementById('emailBox').checked;
+
+            const email = emailBox ? ' email ' : '';
+            const query = `site:linkedin.com/in "${jobTitle}" "${location}" -"${exclude}" "${country}" "${education}" "${employer}"${email}`;
+
+            googleQuery.value = query;
+            $('#queryModal').modal('show');
+        });
+
+        function copyUrl() {
+            googleQuery.select();
+            document.execCommand('copy');
+        }
+
+        function openUrl() {
+            const url = `https://www.google.com/search?q=${encodeURIComponent(googleQuery.value)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchForm = document.getElementById('searchForm');
+            searchForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Get values from form
+                var country = document.getElementById('country').value;
+                var jobTitle = document.getElementById('job-title').value;
+                var location = document.getElementById('location').value;
+                var exclude = document.getElementById('exclude').value;
+                var education = document.getElementById('education').value;
+                var employer = document.getElementById('employer').value;
+
+// Country code mapping
+var countryCodes = {
+    'AFGHANISTAN': 'AF',
+                    'ÅLAND ISLANDS': 'AX',
+                    'ALBANIA': 'AL',
+                    'ALGERIA': 'DZ',
+                    'AMERICAN SAMOA': 'AS',
+                    'ANDORRA': 'AD',
+                    'ANGOLA': 'AO',
+                    'ANGUILLA': 'AI',
+                    'ANTARCTICA': 'AQ',
+                    'ANTIGUA AND BARBUDA': 'AG',
+                    'ARGENTINA': 'AR',
+                    'ARMENIA': 'AM',
+                    'ARUBA': 'AW',
+                    'AUSTRALIA': 'AU',
+                    'AUSTRIA': 'AT',
+                    'AZERBAIJAN': 'AZ',
+                    'BAHAMAS': 'BS',
+                    'BAHRAIN': 'BH',
+                    'BANGLADESH': 'BD',
+                    'BARBADOS': 'BB',
+                    'BELARUS': 'BY',
+                    'BELGIUM': 'BE',
+                    'BELIZE': 'BZ',
+                    'BENIN': 'BJ',
+                    'BERMUDA': 'BM',
+                    'BHUTAN': 'BT',
+                    'BOLIVIA (PLURINATIONAL STATE OF)': 'BO',
+                    'BONAIRE (SINT EUSTATIUS AND SABA)': 'BQ',
+                    'BOSNIA AND HERZEGOWINA': 'BA',
+                    'BOTSWANA': 'BW',
+                    'BOUVET ISLAND': 'BV',
+                    'BRAZIL': 'BR',
+                    'BRITISH INDIAN OCEAN TERRITORY': 'IO',
+                    'BRUNEI DARUSSALAM': 'BN',
+                    'BULGARIA': 'BG',
+                    'BURKINA FASO': 'BF',
+                    'BURUNDI': 'BI',
+                    'CABO VERDE': 'CV',
+                    'CAMBODIA': 'KH',
+                    'CAMEROON': 'CM',
+                    'CANADA': 'CA',
+                    'CAYMAN ISLANDS': 'KY',
+                    'CENTRAL AFRICAN REPUBLIC': 'CF',
+                    'CHAD': 'TD',
+                    'CHILE': 'CL',
+                    'CHINA': 'CN',
+                    'CHRISTMAS ISLAND': 'CX',
+                    'COCOS (KEELING) ISLANDS': 'CC',
+                    'COLOMBIA': 'CO',
+                    'COMOROS': 'KM',
+                    'CONGO': 'CG',
+                    'CONGO (DEMOCRATIC REPUBLIC OF THE)': 'CD',
+                    'COOK ISLANDS': 'CK',
+                    'COSTA RICA': 'CR',
+                    'CÔTE D\'IVOIRE': 'CI',
+                    'CROATIA': 'HR',
+                    'CUBA': 'CU',
+                    'CURAÇAO': 'CW',
+                    'CYPRUS': 'CY',
+                    'CZECH REPUBLIC': 'CZ',
+                    'DENMARK': 'DK',
+                    'DJIBOUTI': 'DJ',
+                    'DOMINICA': 'DM',
+                    'DOMINICAN REPUBLIC': 'DO',
+                    'ECUADOR': 'EC',
+                    'EGYPT': 'EG',
+                    'EL SALVADOR': 'SV',
+                    'EQUATORIAL GUINEA': 'GQ',
+                    'ERITREA': 'ER',
+                    'ESTONIA': 'EE',
+                    'ETHIOPIA': 'ET',
+                    'FALKLAND ISLANDS (MALVINAS)': 'FK',
+                    'FAROE ISLANDS': 'FO',
+                    'FIJI': 'FJ',
+                    'FINLAND': 'FI',
+                    'FRANCE': 'FR',
+                    'FRENCH GUIANA': 'GF',
+                    'FRENCH POLYNESIA': 'PF',
+                    'FRENCH SOUTHERN TERRITORIES': 'TF',
+                    'GABON': 'GA',
+                    'GAMBIA': 'GM',
+                    'GEORGIA': 'GE',
+                    'GERMANY': 'DE',
+                    'GHANA': 'GH',
+                    'GIBRALTAR': 'GI',
+                    'GREECE': 'GR',
+                    'GREENLAND': 'GL',
+                    'GRENADA': 'GD',
+                    'GUADELOUPE': 'GP',
+                    'GUAM': 'GU',
+                    'GUATEMALA': 'GT',
+                    'GUERNSEY': 'GG',
+                    'GUINEA': 'GN',
+                    'GUINEA-BISSAU': 'GW',
+                    'GUYANA': 'GY',
+                    'HAITI': 'HT',
+                    'HEARD ISLAND AND MCDONALD ISLANDS': 'HM',
+                    'HOLY SEE': 'VA',
+                    'HONDURAS': 'HN',
+                    'HONG KONG': 'HK',
+                    'HUNGARY': 'HU',
+                    'ICELAND': 'IS',
+                    'INDIA': 'IN',
+                    'INDONESIA': 'ID',
+                    'IRAN (ISLAMIC REPUBLIC OF)': 'IR',
+                    'IRAQ': 'IQ',
+                    'IRELAND': 'IE',
+                    'ISLE OF MAN': 'IM',
+                    'ISRAEL': 'IL',
+                    'ITALY': 'IT',
+                    'JAMAICA': 'JM',
+                    'JAPAN': 'JP',
+                    'JERSEY': 'JE',
+                    'JORDAN': 'JO',
+                    'KAZAKHSTAN': 'KZ',
+                    'KENYA': 'KE',
+                    'KIRIBATI': 'KI',
+                    'KOREA (DEMOCRATIC PEOPLE\'S REPUBLIC OF)': 'KP',
+                    'KOREA (REPUBLIC OF)': 'KR',
+                    'KUWAIT': 'KW',
+                    'KYRGYZSTAN': 'KG',
+                    'LAO PEOPLE\'S DEMOCRATIC REPUBLIC': 'LA',
+                    'LATVIA': 'LV',
+                    'LEBANON': 'LB',
+                    'LESOTHO': 'LS',
+                    'LIBERIA': 'LR',
+                    'LIBYA': 'LY',
+                    'LIECHTENSTEIN': 'LI',
+                    'LITHUANIA': 'LT',
+                    'LUXEMBOURG': 'LU',
+                    'MACAO': 'MO',
+                    'MACEDONIA (THE FORMER YUGOSLAV REPUBLIC OF)': 'MK',
+                    'MADAGASCAR': 'MG',
+                    'MALAWI': 'MW',
+                    'MALAYSIA': 'MY',
+                    'MALDIVES': 'MV',
+                    'MALI': 'ML',
+                    'MALTA': 'MT',
+                    'MARSHALL ISLANDS': 'MH',
+                    'MARTINIQUE': 'MQ',
+                    'MAURITANIA': 'MR',
+                    'MAURITIUS': 'MU',
+                    'MAYOTTE': 'YT',
+                    'MEXICO': 'MX',
+                    'MICRONESIA (FEDERATED STATES OF)': 'FM',
+                    'MOLDOVA (REPUBLIC OF)': 'MD',
+                    'MONACO': 'MC',
+                    'MONGOLIA': 'MN',
+                    'MONTENEGRO': 'ME',
+                    'MONTSERRAT': 'MS',
+                    'MOROCCO': 'MA',
+                    'MOZAMBIQUE': 'MZ',
+                    'MYANMAR': 'MM',
+                    'NAMIBIA': 'NA',
+                    'NAURU': 'NR',
+                    'NEPAL': 'NP',
+                    'NETHERLANDS': 'NL',
+                    'NEW CALEDONIA': 'NC',
+                    'NEW ZEALAND': 'NZ',
+                    'NICARAGUA': 'NI',
+                    'NIGER': 'NE',
+                    'NIGERIA': 'NG',
+                    'NIUE': 'NU',
+                    'NORFOLK ISLAND': 'NF',
+                    'NORTHERN MARIANA ISLANDS': 'MP',
+                    'NORWAY': 'NO',
+                    'OMAN': 'OM',
+                    'PAKISTAN': 'PK',
+                    'PALAU': 'PW',
+                    'PALESTINE, STATE OF': 'PS',
+                    'PANAMA': 'PA',
+                    'PAPUA NEW GUINEA': 'PG',
+                    'PARAGUAY': 'PY',
+                    'PERU': 'PE',
+                    'PHILIPPINES': 'PH',
+                    'PITCAIRN': 'PN',
+                    'POLAND': 'PL',
+                    'PORTUGAL': 'PT',
+                    'PUERTO RICO': 'PR',
+                    'QATAR': 'QA',
+                    'RÉUNION': 'RE',
+                    'ROMANIA': 'RO',
+                    'RUSSIAN FEDERATION': 'RU',
+                    'RWANDA': 'RW',
+                    'SAINT BARTHÉLEMY': 'BL',
+                    'SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA': 'SH',
+                    'SAINT KITTS AND NEVIS': 'KN',
+                    'SAINT LUCIA': 'LC',
+                    'SAINT MARTIN (FRENCH PART)': 'MF',
+                    'SAINT PIERRE AND MIQUELON': 'PM',
+                    'SAINT VINCENT AND THE GRENADINES': 'VC',
+                    'SAMOA': 'WS',
+                    'SAN MARINO': 'SM',
+                    'SAO TOME AND PRINCIPE': 'ST',
+                    'SAUDI ARABIA': 'SA',
+                    'SENEGAL': 'SN',
+                    'SERBIA': 'RS',
+                    'SEYCHELLES': 'SC',
+                    'SIERRA LEONE': 'SL',
+                    'SINGAPORE': 'SG',
+                    'SINT MAARTEN (DUTCH PART)': 'SX',
+                    'SLOVAKIA': 'SK',
+                    'SLOVENIA': 'SI',
+                    'SOLOMON ISLANDS': 'SB',
+                    'SOMALIA': 'SO',
+                    'SOUTH AFRICA': 'ZA',
+                    'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS': 'GS',
+                    'SOUTH SUDAN': 'SS',
+                    'SPAIN': 'ES',
+                    'SRI LANKA': 'LK',
+                    'SUDAN': 'SD',
+                    'SURINAME': 'SR',
+                    'SVALBARD AND JAN MAYEN': 'SJ',
+                    'SWAZILAND': 'SZ',
+                    'SWEDEN': 'SE',
+                    'SWITZERLAND': 'CH',
+                    'SYRIAN ARAB REPUBLIC': 'SY',
+                    'TAIWAN, PROVINCE OF CHINA': 'TW',
+                    'TAJIKISTAN': 'TJ',
+                    'TANZANIA, UNITED REPUBLIC OF': 'TZ',
+                    'THAILAND': 'TH',
+                    'TIMOR-LESTE': 'TL',
+                    'TOGO': 'TG',
+                    'TOKELAU': 'TK',
+                    'TONGA': 'TO',
+                    'TRINIDAD AND TOBAGO': 'TT',
+                    'TUNISIA': 'TN',
+                    'TURKEY': 'TR',
+                    'TURKMENISTAN': 'TM',
+                    'TURKS AND CAICOS ISLANDS': 'TC',
+                    'TUVALU': 'TV',
+                    'UGANDA': 'UG',
+                    'UKRAINE': 'UA',
+                    'UNITED ARAB EMIRATES': 'AE',
+                    'UNITED KINGDOM': 'GB',
+                    'UNITED STATES': 'US',
+                    'UNITED STATES MINOR OUTLYING ISLANDS': 'UM',
+                    'URUGUAY': 'UY',
+                    'UZBEKISTAN': 'UZ',
+                    'VANUATU': 'VU',
+                    'VENEZUELA (BOLIVARIAN REPUBLIC OF)': 'VE',
+                    'VIET NAM': 'VN',
+                    'VIRGIN ISLANDS (BRITISH)': 'VG',
+                    'VIRGIN ISLANDS (U.S.)': 'VI',
+                    'WALLIS AND FUTUNA': 'WF',
+                    'WESTERN SAHARA': 'EH',
+                    'YEMEN': 'YE',
+                    'ZAMBIA': 'ZM',
+                    'ZIMBABWE': 'ZW',
+                    'Unknown': ''
+                    
+                };    
+
+// Get the country code from the country name
+var countryCode = countryCodes[country.toUpperCase()] || '';
+
+// Construct the Google search query string
+var educationQuery = '';
+if (education === 'bachelors') {
+    educationQuery = '&as_oq=bachelor+degree+licence';
+} else if (education === 'masters') {
+    educationQuery = '&as_oq=masters+mba+master+diplome+msc+magister+magisteres+maitrise';
+} else if (education === 'doctoral') {
+    educationQuery = '&as_oq=dr+Ph.D.+PhD+D.Phil+DPhil+doctor+Doctorado+Doktor+Doctorat+Doutorado+DrSc+Tohtori+Doctorate+Doctora+Duktorah+Dottorato+Daktaras+Doutoramento+Doktorgrad';
+}
+
+var emailQuery = '';
+if (document.getElementById('emailBox').checked) {
+    emailQuery = '{{email "@gmail.com"}}';
+}
+
+var googleQuery = '"' + jobTitle + '" "' + location + '" "' + exclude + '" -intitle:"profiles" -inurl:"dir/' + emailQuery + '" site:' + countryCode + '.linkedin.com/in/ OR site:' + countryCode + '.linkedin.com/pub/' + educationQuery + ' "Current ' + employer + '" "';
+
+// Open the Google search results page in a new tab with the generated query
+var googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent(googleQuery);
+
+// Show popup with options
+document.getElementById('googleQuery').value = googleQuery;
+$('#queryModal').modal('show');
+});
+});
+
+function copyUrl() {
+var googleQuery = document.getElementById('googleQuery').value;
+
+// Copy the text to the clipboard
+navigator.clipboard.writeText(googleQuery)
+.then(function() {
+// Show an alert to notify the user
+alert('URL copied to clipboard!');
+})
+.catch(function(err) {
+console.error('Failed to copy: ', err);
+});
+}
+
+function openInNewTab() {
+var googleQuery = document.getElementById('googleQuery').value;
+var googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent(googleQuery);
+window.open(googleUrl, '_blank');
+}
+</script>
+</body>
+</html>
